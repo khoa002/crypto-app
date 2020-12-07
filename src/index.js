@@ -2,12 +2,13 @@ const axios = require("axios");
 const electron = require("electron");
 const BrowserWindow = electron.remote.BrowserWindow;
 const path = require("path");
+const ipc = electron.ipcRenderer;
+
+let price = document.querySelector("h1");
+let targetPriceVal;
+let targetPrice = document.getElementById("targetPrice");
 
 const notifyBtn = document.getElementById("notifyBtn");
-
-var price = document.querySelector("h1");
-var targetPrice = document.getElementById("targetPrice");
-
 notifyBtn.addEventListener("click", function (event) {
   const modalPath = path.join("file://", __dirname, "add.html");
   let win = new BrowserWindow({
@@ -39,3 +40,8 @@ function getBTC() {
 }
 getBTC();
 setInterval(getBTC, 30000);
+
+ipc.on("targetPriceVal", function (event, arg) {
+  targetPriceVal = Number(arg);
+  targetPrice.innerHTML = "$" + targetPriceVal.toLocaleString("en");
+});

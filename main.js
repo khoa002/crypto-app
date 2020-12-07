@@ -1,8 +1,10 @@
 const shell = require("electron").shell;
 const { app, BrowserWindow, Menu } = require("electron");
+const ipc = require("electron").ipcMain;
+let win = null;
 
 function createWindow() {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -56,4 +58,8 @@ app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
+});
+
+ipc.on("update-notify-value", function (event, arg) {
+  win.webContents.send("targetPriceVal", arg);
 });
