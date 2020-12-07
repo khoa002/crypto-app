@@ -7,10 +7,12 @@ function createWindow() {
     height: 600,
     webPreferences: {
       nodeIntegration: true,
+      enableRemoteModule: true,
     },
   });
 
-  win.loadFile("index.html");
+  win.loadFile("src/index.html");
+//   win.webContents.openDevTools();
 
   const menu = Menu.buildFromTemplate([
     {
