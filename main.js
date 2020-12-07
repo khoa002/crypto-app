@@ -1,5 +1,5 @@
-const { app, BrowserWindow, Menu } = require("electron");
 const shell = require("electron").shell;
+const { app, BrowserWindow, Menu } = require("electron");
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -8,11 +8,12 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
+      contextIsolation: false,
     },
   });
 
   win.loadFile("src/index.html");
-//   win.webContents.openDevTools();
+  // win.webContents.openDevTools();
 
   const menu = Menu.buildFromTemplate([
     {
