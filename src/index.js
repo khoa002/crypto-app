@@ -3,6 +3,11 @@ const electron = require("electron");
 const BrowserWindow = electron.remote.BrowserWindow;
 const path = require("path");
 const ipc = electron.ipcRenderer;
+const notification = {
+  title: "BTC Alert",
+  body: "BTC just beat your target price!",
+  icon: path.join(__dirname, "../assets/images/btc.png"),
+};
 
 let price = document.querySelector("h1");
 let targetPriceVal;
@@ -36,6 +41,17 @@ function getBTC() {
     .then((res) => {
       const cryptos = res.data.BTC.USD;
       price.innerHTML = "$" + cryptos.toLocaleString("en");
+
+      if (targetPrice.innerHTML != "" && targetPriceVal < res.data.BTC.USD) {
+        const myNotification = new window.Notification(
+          notification.title,
+          notification
+        );
+      }
+
+      myNotification.onclick = () => {
+        console.log("clicked");
+      };
     });
 }
 getBTC();
